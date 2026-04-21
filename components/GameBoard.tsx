@@ -11,7 +11,7 @@ import { spawnConfetti } from "./Confetti";
 type ZoneMap = Record<EmotionKey, PlacedCard[]>;
 
 function emptyZones(): ZoneMap {
-  return Object.fromEntries(EMOTIONS.map((e) => [e.key, []])) as ZoneMap;
+return Object.fromEntries(EMOTIONS.map((e) => [e.key, [] as PlacedCard[]])) as ZoneMap;
 }
 
 export default function GameBoard() {
