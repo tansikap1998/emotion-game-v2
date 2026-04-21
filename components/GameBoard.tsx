@@ -39,7 +39,7 @@ export default function GameBoard() {
     return (
       <div className="min-h-screen p-4 max-w-lg mx-auto">
         <div className="text-center mb-6 mt-4">
-          <div className="text-6xl mb-3">🌟</div>
+          <div className="text-6xl mb-3">&#127775;</div>
           <h2 className="font-kanit font-bold text-2xl text-amber-700 mb-1">สำรวจครบแล้ว!</h2>
           <p className="text-gray-500 text-sm">นี่คืออารมณ์ที่เราเลือกในวันนี้</p>
         </div>
@@ -61,95 +61,7 @@ export default function GameBoard() {
           ))}
         </div>
         <button onClick={() => window.location.reload()} className="w-full py-3 rounded-2xl bg-amber-700 text-white font-kanit font-bold text-lg hover:bg-amber-800 transition-colors">
-          🔄 สำรวจรอบใหม่
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col min-h-[calc(100vh-56px)]">
-      <CopingModal
-        scenario={modal?.scenario ?? null}
-        emotion={EMOTIONS.find((e) => e.key === modal?.emotionKey) ?? null}
-        onClose={handleModalClose}
-      />
-      <div className="px-4 pt-3 pb-2">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-xs text-gray-400">{currentIndex + 1} / {total}</span>
-          <span className="text-xs text-gray-400">{progress}%</span>
-        </div>
-        <div className="bg-gray-100 rounded-full h-2 overflow-hidden">
-          <div className="h-full rounded-full transition-all duration-500" style={{ width: `${progress}%`, background: "linear-gradient(90deg,#fcd34d,#fb923c)" }} />
-        </div>
-      </div>
-      <div className="flex-1 flex flex-col items-center justify-center px-4
-
-cat > components/GameBoard.tsx << 'EOF'
-"use client";
-
-import { useCallback, useState } from "react";
-import { EMOTIONS, Scenario, EmotionKey, pickScenarios } from "@/lib/data";
-import CopingModal from "./CopingModal";
-import { spawnConfetti } from "./Confetti";
-
-export default function GameBoard() {
-  const [pool] = useState<Scenario[]>(() => pickScenarios(20));
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [history, setHistory] = useState<{ scenario: Scenario; emotionKey: EmotionKey }[]>([]);
-  const [modal, setModal] = useState<{ scenario: Scenario; emotionKey: EmotionKey } | null>(null);
-  const [showSummary, setShowSummary] = useState(false);
-
-  const current = pool[currentIndex];
-  const total = pool.length;
-  const progress = Math.round((currentIndex / total) * 100);
-
-  const handlePick = useCallback((emotionKey: EmotionKey) => {
-    if (!current) return;
-    const entry = { scenario: current, emotionKey };
-    setHistory((h) => [...h, entry]);
-    setModal(entry);
-    spawnConfetti(10);
-  }, [current]);
-
-  const handleModalClose = () => {
-    setModal(null);
-    if (currentIndex + 1 >= total) setShowSummary(true);
-    else setCurrentIndex((i) => i + 1);
-  };
-
-  if (showSummary) {
-    const grouped: Record<string, typeof history> = {};
-    history.forEach((h) => {
-      if (!grouped[h.emotionKey]) grouped[h.emotionKey] = [];
-      grouped[h.emotionKey].push(h);
-    });
-    return (
-      <div className="min-h-screen p-4 max-w-lg mx-auto">
-        <div className="text-center mb-6 mt-4">
-          <div className="text-6xl mb-3">🌟</div>
-          <h2 className="font-kanit font-bold text-2xl text-amber-700 mb-1">สำรวจครบแล้ว!</h2>
-          <p className="text-gray-500 text-sm">นี่คืออารมณ์ที่เราเลือกในวันนี้</p>
-        </div>
-        <div className="space-y-3 mb-6">
-          {EMOTIONS.filter((e) => grouped[e.key]?.length > 0).map((e) => (
-            <div key={e.key} className="rounded-2xl p-3" style={{ backgroundColor: e.bgColor, border: `2px solid ${e.borderColor}` }}>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl">{e.icon}</span>
-                <span className="font-kanit font-bold text-base" style={{ color: e.color }}>{e.key} ({grouped[e.key].length})</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {grouped[e.key].map((h) => (
-                  <span key={h.scenario.id} className="text-xs bg-white/70 rounded-full px-2.5 py-1 border" style={{ borderColor: e.borderColor, color: e.textColor }}>
-                    {h.scenario.icon} {h.scenario.text}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-        <button onClick={() => window.location.reload()} className="w-full py-3 rounded-2xl bg-amber-700 text-white font-kanit font-bold text-lg hover:bg-amber-800 transition-colors">
-          🔄 สำรวจรอบใหม่
+          &#128260; สำรวจรอบใหม่
         </button>
       </div>
     );
